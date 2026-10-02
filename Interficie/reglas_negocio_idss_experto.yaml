@@ -1,0 +1,485 @@
+# ============================================================================
+# REGLAS DE NEGOCIO - IDSS Hotelero
+# Reglas derivadas de los perfiles TLP del clustering de hotel_clustering.ipynb.
+# No incluye reglas externas al clustering ni reglas manuales globales.
+# ============================================================================
+
+umbrales_riesgo:
+  BAJO: 0.3
+  MEDIO: 0.55
+  ALTO: 0.55
+  CRITICO: 0.85
+cluster_profiles:
+  '0':
+    nombre: Planificador Anticipado
+    descripcion_datos: Cluster con reservas planificadas con mayor antelacion, donde la accion debe mantener el
+      compromiso hasta la llegada.
+    variables_distintivas:
+    - lead_time elevado
+    - seguimiento escalonado
+    - mayor sensibilidad a cambios de plan
+    logica_negocio: Reducir incertidumbre con confirmaciones progresivas y facilitar cambio de fechas antes que
+      cancelacion.
+  '1':
+    nombre: Reserva de Ultima Hora
+    descripcion_datos: Cluster de reservas cercanas a la fecha de llegada, con poca ventana para reaccionar ante
+      una posible cancelacion o no-show.
+    variables_distintivas:
+    - lead_time bajo
+    - decision reciente
+    - necesidad de confirmacion rapida
+    logica_negocio: Confirmar llegada, validar contacto o garantia y proteger inventario con acciones inmediatas.
+  '2':
+    nombre: Viajero Premium
+    descripcion_datos: Cluster de mayor valor economico por ADR, estancia o potencial de servicio, donde conviene
+      personalizar la retencion.
+    variables_distintivas:
+    - adr_per_guest alto
+    - revenue esperado alto
+    - mayor margen para trato personalizado
+    logica_negocio: Proteger revenue alto con contacto humano y beneficios de valor anadido antes que descuentos
+      genericos.
+  '3':
+    nombre: Turista Familiar
+    descripcion_datos: Cluster asociado a reservas con mas huespedes o complejidad familiar, donde la cancelacion
+      puede venir de dudas logisticas.
+    variables_distintivas:
+    - total_guests elevado
+    - is_family_booking activo
+    - necesidad de resolver logistica
+    logica_negocio: Confirmar necesidades de habitacion y servicios familiares para reducir incertidumbre previa
+      al viaje.
+  '4':
+    nombre: Viajero Estandar
+    descripcion_datos: Cluster mayoritario de reservas estandar, apto para acciones automatizadas y escalado solo
+      si el riesgo lo exige.
+    variables_distintivas:
+    - perfil mas frecuente
+    - reserva online estandar
+    - coste de intervencion debe ser bajo
+    logica_negocio: Automatizar confirmaciones y reservar intervencion humana para niveles altos de riesgo.
+  '5':
+    nombre: Corporativo Fiel
+    descripcion_datos: Cluster con senales de cliente corporativo o recurrente, donde se debe proteger la relacion
+      comercial.
+    variables_distintivas:
+    - repeticion o relacion comercial
+    - mayor importancia del CRM
+    - confirmacion con contacto corporativo
+    logica_negocio: Validar cambios de patron con el contacto corporativo y evitar restricciones agresivas por defecto.
+perfiles:
+  Planificador Anticipado:
+    descripcion: 'Reserva realizada con mucha antelación. El riesgo principal es que el cliente cambie de planes
+      antes de la llegada. La actuación debe reducir incertidumbre, mantener la reserva viva y facilitar la modificación
+      antes que la cancelación.
+
+      '
+    BAJO:
+      prioridad: 3
+      canal:
+      - email
+      - automatico
+      timing_dias:
+      - 45
+      - 14
+      acciones:
+      - Enviar email de confirmación reforzada con política de cancelación clara, ventajas de mantener la reserva
+        y enlace de modificación de fechas.
+      - Enviar contenido útil del destino y servicios del hotel para aumentar vinculación con el viaje.
+      - 'Ofrecer extras opcionales de bajo coste operativo: desayuno, parking o late checkout sujeto a disponibilidad.'
+    MEDIO:
+      prioridad: 2
+      canal:
+      - email
+      - sms
+      timing_dias:
+      - 60
+      - 30
+      - 7
+      acciones:
+      - Enviar email de reactivación con resumen de la reserva, beneficios contratados y opción preferente de cambio
+        de fechas antes que cancelación.
+      - 'Ofrecer conversión a tarifa semi-flexible: menor reembolso, pero cambio de fechas gratuito si mantiene
+        el importe de la reserva.'
+      - Enviar SMS de confirmación 7 días antes con respuesta rápida para detectar dudas o intención de cancelar.
+      - Registrar en CRM si el cliente no abre ni responde comunicaciones, para escalar solo si el revenue lo justifica.
+    ALTO:
+      prioridad: 1
+      canal:
+      - email
+      - sms
+      - llamada
+      timing_dias:
+      - 90
+      - 45
+      - 21
+      - 7
+      acciones:
+      - 'Realizar llamada del equipo de reservas para confirmar intención de viaje y detectar barreras: precio,
+        fechas, transporte o condiciones.'
+      - Solicitar reconfirmación activa y validación de tarjeta si la reserva supera el umbral de revenue medio
+        o procede de país de riesgo alto.
+      - Si la reserva no tiene compromiso previo, proponer preautorizacion o pequeño deposito reembolsable a cambio
+        de mantener precio, habitación o ventaja concreta hasta una fecha límite.
+      - Proponer cambio de fechas sin penalización parcial si el cliente duda, priorizando modificación frente a
+        cancelación.
+      - 'Programar seguimiento: email tras la llamada, SMS de confirmación y revisión manual 7 días antes de llegada.'
+    CRITICO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      - sms
+      timing_dias:
+      - 90
+      - 45
+      - 14
+      - 3
+      acciones:
+      - Escalar a supervisor de reservas para decidir entre retención, garantía proporcionada o revisión preventiva
+        de inventario.
+      - Realizar llamada prioritaria y solicitar confirmación explícita de llegada antes del plazo operativo definido
+        por el hotel.
+      - Solicitar preautorizacion o pequeño deposito reembolsable si combina lead_time extremo, país de riesgo alto
+        o cancelaciones previas y no existe compromiso previo.
+      - Enviar a revenue management para revisar inventario y escenarios de reventa si la fecha tiene alta demanda.
+      - Registrar motivo de riesgo y resultado de la intervención en CRM para alimentar futuras reglas del IDSS.
+  Reserva de Ultima Hora:
+    descripcion: 'Reserva realizada pocos días antes de la llegada. El objetivo no es tanto fidelizar como confirmar
+      intención de llegada, asegurar garantía de pago y proteger inventario en caso de no respuesta.
+
+      '
+    BAJO:
+      prioridad: 3
+      canal:
+      - email
+      - automatico
+      timing_dias:
+      - 1
+      acciones:
+      - Enviar email inmediato de confirmación con pre-check-in digital, instrucciones de llegada y política de
+        no-show.
+      - 'Ofrecer upsell de disponibilidad inmediata: parking, desayuno o upgrade sujeto a ocupación.'
+      - Validar automáticamente datos mínimos de contacto y tarjeta si la política del hotel lo requiere.
+    MEDIO:
+      prioridad: 2
+      canal:
+      - email
+      - sms
+      timing_dias:
+      - 2
+      - 1
+      acciones:
+      - Enviar SMS de confirmación rápida con enlace de respuesta para validar intención de llegada.
+      - Enviar email operativo con hora límite de llegada, condiciones de garantía y canal de contacto directo.
+      - Marcar revision manual si no hay teléfono válido, email válido o tarjeta registrada.
+      - 'No ofrecer descuentos: priorizar claridad, confirmación y reducción de incertidumbre operativa.'
+    ALTO:
+      prioridad: 1
+      canal:
+      - llamada
+      - sms
+      timing_dias:
+      - 1
+      acciones:
+      - Realizar llamada antes de garantizar disponibilidad definitiva, especialmente si la llegada es en menos
+        de 24 horas.
+      - Solicitar garantia con tarjeta válida y preautorización si la política lo permite.
+      - 'Enviar SMS con plazo de confirmación: si no responde antes del cutoff operativo, marcar para revisión manual
+        y valorar lista de espera.'
+      - 'Bloquear incentivos comerciales: no ofrecer upgrade ni descuento hasta confirmar intención de llegada.'
+    CRITICO:
+      prioridad: 1
+      canal:
+      - llamada
+      - sms
+      - manual
+      timing_dias:
+      - 1
+      acciones:
+      - 'Activar protocolo de no-show preventivo: llamada inmediata, SMS de confirmación y revisión de tarjeta.'
+      - Solicitar preautorización para mantener la reserva activa si falta garantía y la política lo permite.
+      - Si no hay respuesta en el plazo operativo, marcar para revisión manual de inventario y activar lista de
+        espera si procede.
+      - Notificar a recepción y revenue management para ajustar disponibilidad y evitar habitación bloqueada sin
+        garantía.
+  Viajero Premium:
+    descripcion: 'Reserva de alto valor, normalmente con ADR elevado, estancia larga o mayor potencial de lifetime
+      value. La actuación debe proteger revenue sin erosionar la experiencia. Se prioriza personalización, no descuento
+      directo.
+
+      '
+    BAJO:
+      prioridad: 2
+      canal:
+      - email
+      timing_dias:
+      - 30
+      - 7
+      acciones:
+      - 'Enviar email personalizado solicitando preferencias de estancia: motivo del viaje, hora de llegada, tipo
+        de cama y servicios deseados.'
+      - Asignar revision de habitación por recepción senior para asegurar coherencia entre categoría reservada y
+        expectativas.
+      - Ofrecer servicios premium de valor añadido sujetos a disponibilidad, evitando descuentos innecesarios.
+      - Registrar preferencias en CRM para mejorar futuras recomendaciones del IDSS.
+    MEDIO:
+      prioridad: 1
+      canal:
+      - email
+      - llamada
+      timing_dias:
+      - 30
+      - 14
+      acciones:
+      - Realizar llamada de guest relations o jefe de recepción para confirmar preferencias y reforzar confianza
+        en la estancia.
+      - Ofrecer upgrade sujeto a disponibilidad y condicionado a mantener la reserva activa hasta la fecha límite
+        definida.
+      - 'Proponer paquete personalizado con valor añadido: traslado, spa, cena o late checkout, priorizando margen
+        frente a descuento.'
+      - Confirmar por email todas las peticiones especiales y dejar responsable interno asignado.
+    ALTO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      timing_dias:
+      - 45
+      - 21
+      - 7
+      acciones:
+      - Escalar a dirección de hotel o guest relations si el revenue esperado supera el umbral premium.
+      - Realizar llamada personalizada para identificar causa probable de cancelación y ofrecer solución concreta.
+      - 'Ofrecer beneficio premium condicionado: upgrade sujeto a disponibilidad, late checkout o experiencia complementaria
+        si confirma.'
+      - Evitar flexibilidad total por defecto; aplicar excepción comercial solo si protege revenue superior al coste
+        del incentivo.
+      - Enviar email posterior con propuesta personalizada, condiciones claras y fecha límite de aceptación.
+    CRITICO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      - manual
+      timing_dias:
+      - 45
+      - 21
+      - 7
+      - 2
+      acciones:
+      - 'Activar comité breve de decisión: dirección, revenue y recepción definen incentivo máximo permitido según
+        margen esperado.'
+      - Llamada directa de dirección o guest relations para retener la reserva con una propuesta individualizada.
+      - Ofrecer paquete de valor añadido de alto impacto y coste controlado antes que descuento directo sobre tarifa.
+      - Si el cliente no confirma, preparar estrategia de reventa de habitación premium y lista de espera.
+      - Registrar causa, incentivo ofrecido, coste estimado y resultado para análisis posterior de rentabilidad
+        de acciones.
+  Turista Familiar:
+    descripcion: 'Reserva familiar o de varios huéspedes. El riesgo suele relacionarse con precio, logística, configuración
+      de camas, dudas sobre servicios para niños o cambios de planificación. La actuación debe reducir incertidumbre
+      y aportar valor familiar antes que aplicar descuentos directos.
+
+      '
+    BAJO:
+      prioridad: 3
+      canal:
+      - email
+      timing_dias:
+      - 21
+      - 7
+      acciones:
+      - 'Enviar email con información familiar: piscina, habitaciones comunicadas si existen, menú infantil, horarios
+        y actividades cercanas.'
+      - Confirmar preferencias de camas, cuna o necesidades especiales mediante formulario breve.
+      - 'Ofrecer paquete familiar de valor añadido: desayuno infantil, parking o actividad local, sujeto a disponibilidad.'
+    MEDIO:
+      prioridad: 2
+      canal:
+      - email
+      - sms
+      timing_dias:
+      - 21
+      - 10
+      - 3
+      acciones:
+      - Enviar email con checklist de viaje familiar y confirmación de configuración de habitación.
+      - 'Ofrecer alternativa de valor: desayuno incluido, flexibilidad de cambio de fechas o ventaja familiar sin
+        reducir tarifa base.'
+      - Enviar SMS 3 días antes solicitando confirmación rápida de llegada y necesidades de última hora.
+      - Marcar revision si hay más de tres huéspedes y no consta habitación adecuada.
+    ALTO:
+      prioridad: 1
+      canal:
+      - email
+      - sms
+      - llamada
+      timing_dias:
+      - 30
+      - 14
+      - 7
+      acciones:
+      - 'Realizar llamada para resolver dudas logísticas: camas, niños, horarios, transporte, servicios familiares
+        y condiciones de cancelación.'
+      - Priorizar cambio de fechas sin penalización parcial antes que cancelación, manteniendo el importe de la
+        reserva.
+      - 'Ofrecer paquete familiar cerrado con valor añadido en lugar de descuento directo: desayuno, actividad infantil
+        o late checkout familiar.'
+      - Solicitar garantia con tarjeta si el país es de riesgo alto o existen cancelaciones previas.
+      - Enviar email resumen tras la llamada con condiciones acordadas y fecha límite para confirmar.
+    CRITICO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      - sms
+      timing_dias:
+      - 30
+      - 14
+      - 7
+      - 2
+      acciones:
+      - Escalar a responsable de reservas para proteger una reserva familiar de alto impacto económico.
+      - 'Llamada prioritaria para confirmar necesidades críticas y ofrecer solución concreta: cambio de fechas,
+        habitación adecuada o paquete familiar.'
+      - Solicitar preautorizacion o pequeño deposito reembolsable solo si el valor económico es alto, no existe
+        compromiso previo y la cancelación afectaría la ocupación prevista.
+      - Si no se confirma, enviar a revisión manual de inventario y preparar estrategia de reventa por tratarse
+        de habitación de alta demanda.
+      - 'Registrar motivo de riesgo familiar en CRM: precio, logística, transporte, niños, fechas o falta de servicios.'
+  Viajero Estandar:
+    descripcion: 'Segmento mayoritario, normalmente con reserva online y estancia estándar. Debe gestionarse con
+      automatización eficiente. La intervención manual solo se justifica si el riesgo se combina con alto revenue,
+      país de riesgo, historial negativo o temporada de alta demanda.
+
+      '
+    BAJO:
+      prioridad: 3
+      canal:
+      - email
+      - automatico
+      timing_dias:
+      - 7
+      acciones:
+      - Enviar email automático de confirmación con servicios del hotel, política de cancelación y pre-check-in
+        digital.
+      - 'Ofrecer extras opcionales de bajo coste: desayuno, parking o late checkout sujeto a disponibilidad.'
+      - Mantener seguimiento rutinario sin intervención manual.
+    MEDIO:
+      prioridad: 2
+      canal:
+      - email
+      - sms
+      timing_dias:
+      - 14
+      - 5
+      - 2
+      acciones:
+      - Enviar email preventivo con beneficios de mantener la reserva y alternativa de cambio de fechas antes que
+        cancelación.
+      - Enviar SMS de confirmación 2 días antes si no ha completado pre-check-in o no ha interactuado con comunicaciones
+        previas.
+      - 'Solicitar garantia con tarjeta solo si existen señales adicionales: país de riesgo alto, lead_time alto
+        o cancelaciones previas.'
+      - Evitar llamada salvo que el revenue expuesto supere el umbral medio.
+    ALTO:
+      prioridad: 1
+      canal:
+      - email
+      - sms
+      timing_dias:
+      - 14
+      - 7
+      - 2
+      acciones:
+      - 'Aplicar protocolo estándar de riesgo alto: email claro, SMS de confirmación y revisión de garantía de pago.'
+      - Solicitar tarjeta válida, preautorizacion o deposito reembolsable solo si no existe compromiso previo y
+        hay país de riesgo alto, cancelaciones previas o fecha de alta demanda.
+      - Ofrecer tarifa semi-flexible con cambio de fechas antes que cancelación, evitando descuentos directos generalizados.
+      - Registrar resultado de la intervención en CRM para detectar patrones del segmento masivo.
+      - Escalar a llamada solo si spend_total supera el umbral de revenue alto o hay conflicto de disponibilidad.
+    CRITICO:
+      prioridad: 1
+      canal:
+      - email
+      - sms
+      - llamada
+      timing_dias:
+      - 14
+      - 7
+      - 2
+      acciones:
+      - 'Priorizar actuación automática reforzada: email, SMS y comprobación de tarjeta antes de asignar llamada.'
+      - Realizar llamada solo si el revenue en riesgo o la ocupación de la fecha justifica coste de intervención.
+      - Solicitar preautorizacion o deposito reembolsable en reservas sin compromiso previo, con país de riesgo
+        alto y cancelaciones previas.
+      - Si no hay respuesta, enviar a revenue para revisar estrategia de reventa o inventario según ocupación prevista.
+      - No ofrecer incentivos costosos salvo que exista margen claro o riesgo de pérdida relevante.
+  Corporativo Fiel:
+    descripcion: 'Perfil corporativo, a menudo repetidor y asociado a acuerdos comerciales. La prioridad es proteger
+      la relación con la empresa. Las restricciones automáticas deben evitarse salvo señales claras de riesgo o
+      ruptura del patrón habitual.
+
+      '
+    BAJO:
+      prioridad: 3
+      canal:
+      - automatico
+      timing_dias:
+      - 1
+      acciones:
+      - Mantener condiciones corporativas vigentes sin restricciones adicionales.
+      - Activar check-in exprés y preferencias registradas si existen.
+      - Enviar email automático de confirmación al huésped o contacto corporativo según protocolo.
+    MEDIO:
+      prioridad: 2
+      canal:
+      - email
+      timing_dias:
+      - 5
+      - 2
+      acciones:
+      - Revisar condiciones del acuerdo corporativo antes de aplicar cualquier garantía adicional.
+      - Enviar email al contacto operativo o travel manager para confirmar que la reserva sigue activa.
+      - Comprobar si hay cambios recientes en política de viajes, facturación o autorización de la empresa.
+      - 'Evitar descuentos: la acción debe centrarse en confirmación, relación comercial y cumplimiento contractual.'
+    ALTO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      timing_dias:
+      - 7
+      - 2
+      acciones:
+      - Revisión manual obligatoria porque el riesgo es inusual para un perfil corporativo fiel.
+      - Realizar llamada al travel manager o responsable de cuenta para confirmar motivo y continuidad de la reserva.
+      - Investigar en CRM si existe insatisfacción previa, incidencia de facturación o cambio de política interna.
+      - No solicitar prepago automático si existe contrato vigente; proponer garantía solo si el acuerdo lo permite.
+      - Escalar a account manager si el patrón afecta a varias reservas de la misma empresa.
+    CRITICO:
+      prioridad: 1
+      canal:
+      - llamada
+      - email
+      - manual
+      timing_dias:
+      - 10
+      - 5
+      - 2
+      acciones:
+      - Activar revisión conjunta entre reservas y account manager antes de modificar condiciones comerciales.
+      - Llamada prioritaria al responsable corporativo para confirmar si existe cambio estructural en viajes de
+        empresa.
+      - Si se detecta riesgo repetido, abrir revisión del acuerdo corporativo y condiciones de cancelación futuras.
+      - 'Proteger inventario solo con medidas compatibles con contrato: garantía, release period o confirmación
+        formal.'
+      - Registrar incidencia comercial en CRM para seguimiento de cuenta, no como caso aislado de huésped.
+reglas_globales: []
+config_informe:
+  mostrar_probabilidades_tlp: true
+  exportar_csv: true
+  exportar_alertas: true
+  top_alertas_n: 20
+  umbral_alerta_dashboard: 0.55
+  exportar_dashboard_data: true

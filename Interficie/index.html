@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grand Meridian Hotel IDSS</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="app-header">
+        <div class="hotel-identity">
+          <div class="hotel-mark" aria-hidden="true">
+            <span>GM</span>
+          </div>
+          <div>
+            <h1>Grand Meridian Hotel</h1>
+            <p>IDSS · Gestion de cancelaciones</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="new-reservation-toggle" id="newReservationToggle" type="button" aria-expanded="false" aria-controls="newReservationDrawer">
+            Nueva reserva
+          </button>
+          <span class="live-pill">En vivo</span>
+          <span class="date-pill">02 mayo 2026</span>
+        </div>
+      </header>
+
+      <section class="opening" aria-label="Resumen principal">
+        <article class="hero-card">
+          <div class="hero-copy">
+            <p class="eyebrow">Panel operativo</p>
+            <h2>Riesgo de cancelacion y reservas a tratar hoy</h2>
+          </div>
+          <div class="hero-score">
+            <span>Reservas activas</span>
+            <strong id="totalBookings">0</strong>
+            <small id="riskMix">Calculando cartera</small>
+          </div>
+        </article>
+
+        <aside class="calendar-card">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Calendario</p>
+              <h3>Riesgo por dia de llegada</h3>
+            </div>
+            <div class="calendar-tools">
+              <label class="calendar-month-field">
+                <span>Mes</span>
+                <select id="calendarMonth" aria-label="Mes del calendario"></select>
+              </label>
+              <span id="calendarSummary">0 dias criticos</span>
+            </div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+          <div class="risk-calendar" id="riskCalendar"></div>
+          <div class="calendar-detail" id="calendarDetail">
+            Selecciona un dia para ver reservas y tareas programadas.
+          </div>
+        </aside>
+      </section>
+
+      <section class="metric-grid" aria-label="Indicadores clave">
+        <article class="metric">
+          <span>Alto riesgo</span>
+          <strong id="highRiskCount">0</strong>
+          <small>Reservas alto y critico</small>
+        </article>
+        <article class="metric">
+          <span>P(cancel) media</span>
+          <strong id="avgProb">0%</strong>
+          <small>Prediccion agregada</small>
+        </article>
+        <article class="metric">
+          <span>Revenue en riesgo</span>
+          <strong id="revenueAtRisk">0 EUR</strong>
+          <small>Valor alto + critico</small>
+        </article>
+        <article class="metric">
+          <span>Acciones pendientes</span>
+          <strong id="pendingActions">0</strong>
+          <small>Sin ejecutar hoy</small>
+        </article>
+      </section>
+
+      <section class="analytics">
+        <article class="chart-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Riesgo</p>
+              <h3>Distribucion de reservas</h3>
+            </div>
+            <span id="riskTotal"></span>
+          </div>
+          <div class="donut-wrap">
+            <div class="donut" id="riskDonut"></div>
+            <div class="legend" id="riskLegend"></div>
+          </div>
+        </article>
+
+        <article class="chart-panel wide">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Perfiles TLP</p>
+              <h3>Volumen por segmento</h3>
+            </div>
+            <span>Ordenado por reservas</span>
+          </div>
+          <div class="bars" id="profileBars"></div>
+        </article>
+      </section>
+
+      <section class="workbench">
+        <div class="list-head">
+          <div>
+            <p class="eyebrow">Reservas activas</p>
+            <h3>Ordenadas por urgencia de tratamiento</h3>
+          </div>
+          <div class="controls">
+            <input id="searchInput" type="search" placeholder="Buscar reserva, perfil o canal..." />
+            <div class="segmented" role="tablist" aria-label="Filtrar riesgo">
+              <button class="active" type="button" data-filter="ALL">Todas</button>
+              <button type="button" data-filter="CRITICO">Critico</button>
+              <button type="button" data-filter="ALTO">Alto</button>
+              <button type="button" data-filter="MEDIO">Medio</button>
+              <button type="button" data-filter="BAJO">Bajo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Reserva</th>
+                <th>Perfil</th>
+                <th>Llegada</th>
+                <th>Riesgo</th>
+                <th>Valor</th>
+                <th>Deposito</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody id="reservationRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <section class="detail-drawer" id="detailDrawer" aria-hidden="true">
+      <div class="drawer-card">
+        <button class="close-btn" id="closeDrawer" type="button" aria-label="Cerrar">x</button>
+        <div id="detailContent"></div>
+      </div>
+    </section>
+
+    <section class="detail-drawer" id="newReservationDrawer" aria-hidden="true">
+      <div class="drawer-card drawer-card-form">
+        <button class="close-btn" id="closeNewReservationDrawer" type="button" aria-label="Cerrar">x</button>
+        <article class="detail">
+          <header class="detail-hero detail-hero-form">
+            <p class="eyebrow">Motor IDSS</p>
+            <h2>Nueva reserva</h2>
+            <div class="pill-list">
+              <span class="status-pill form-mode" id="engineMode">XGBoost + TLP + reglas experto</span>
+            </div>
+          </header>
+
+          <form class="new-booking-form" id="newBookingForm">
+            <label>
+              Nombre huesped
+              <input name="guest_name" type="text" placeholder="Nombre y apellidos" required />
+            </label>
+            <label>
+              Hotel
+              <select name="hotel">
+                <option>City Hotel</option>
+                <option>Resort Hotel</option>
+              </select>
+            </label>
+            <label>
+              Antelacion
+              <input name="lead_time" type="number" min="0" value="45" />
+            </label>
+            <label>
+              Mes llegada
+              <select name="arrival_date_month">
+                <option>January</option><option>February</option><option>March</option><option>April</option>
+                <option>May</option><option>June</option><option selected>July</option><option>August</option>
+                <option>September</option><option>October</option><option>November</option><option>December</option>
+              </select>
+            </label>
+            <label>
+              Dia
+              <input name="arrival_date_day_of_month" type="number" min="1" max="31" value="15" />
+            </label>
+            <label>
+              Noches
+              <input name="total_nights" type="number" min="1" value="3" />
+            </label>
+            <label>
+              Huespedes
+              <input name="total_guests" type="number" min="1" value="2" />
+            </label>
+            <label>
+              Email huesped
+              <input name="guest_email" type="email" placeholder="cliente@example.com" required />
+            </label>
+            <label>
+              ADR
+              <input name="adr" type="number" min="0" value="110" />
+            </label>
+            <label>
+              Tipo deposito
+              <select name="deposit_type">
+                <option selected>No Deposit</option>
+                <option>Refundable</option>
+                <option>Non Refund</option>
+              </select>
+            </label>
+            <label>
+              Pais riesgo
+              <select name="country_risk">
+                <option>Low</option>
+                <option selected>Medium</option>
+                <option>High</option>
+              </select>
+            </label>
+            <label>
+              Segmento
+              <select name="market_segment">
+                <option>Direct</option>
+                <option selected>Online TA</option>
+                <option>Offline TA/TO</option>
+                <option>Groups</option>
+                <option>Corporate</option>
+              </select>
+            </label>
+            <label>
+              Canal
+              <select name="distribution_channel">
+                <option selected>TA/TO</option>
+                <option>Direct</option>
+                <option>Corporate</option>
+                <option>GDS</option>
+              </select>
+            </label>
+            <label>
+              Habitacion
+              <select name="reserved_room_type">
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option>
+              </select>
+            </label>
+            <label>
+              Regimen
+              <select name="meal">
+                <option selected>BB</option><option>SC</option><option>HB</option><option>FB</option>
+              </select>
+            </label>
+            <label>
+              Cancelaciones previas
+              <input name="previous_cancellations" type="number" min="0" value="0" />
+            </label>
+            <label>
+              Peticiones
+              <input name="total_of_special_requests" type="number" min="0" value="1" />
+            </label>
+            <button class="decision-btn compact" type="submit">Evaluar reserva</button>
+          </form>
+          <div class="new-booking-result" id="newBookingResult">
+            Introduce una reserva y el IDSS calculara P(cancelacion), perfil TLP y plan de actuacion.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="dashboard_data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
