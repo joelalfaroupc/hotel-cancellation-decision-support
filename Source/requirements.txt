@@ -1,0 +1,7 @@
+-r ../Interficie/requirements.txt
+matplotlib
+seaborn
+scipy
+shap
+jupyterlab
+nbformat

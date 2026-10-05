@@ -1,0 +1,158 @@
+{
+  "best_model": "xgboost",
+  "selection_metric": "f1",
+  "cv_folds": 3,
+  "n_iter": 6,
+  "scale_pos_weight": 1.819672131147541,
+  "dev_rows": 3784,
+  "test_rows": 946,
+  "n_features": 63,
+  "model_searches": {
+    "random_forest": {
+      "best_score": 0.7475866904406189,
+      "best_params": {
+        "n_estimators": 500,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": 0.5,
+        "max_depth": 8
+      },
+      "dev_metrics": {
+        "accuracy": 0.8617864693446089,
+        "precision": 0.7742799732083054,
+        "recall": 0.8614008941877794,
+        "f1": 0.8155202821869488,
+        "roc_auc": 0.9445930993993588
+      },
+      "test_metrics": {
+        "accuracy": 0.8340380549682875,
+        "precision": 0.7418478260869565,
+        "recall": 0.8149253731343283,
+        "f1": 0.7766714082503556,
+        "roc_auc": 0.9209223929452574
+      }
+    },
+    "extra_trees": {
+      "best_score": 0.7436652919311667,
+      "best_params": {
+        "n_estimators": 500,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": 0.5,
+        "max_depth": 8
+      },
+      "dev_metrics": {
+        "accuracy": 0.8364164904862579,
+        "precision": 0.7205613178767541,
+        "recall": 0.8800298062593145,
+        "f1": 0.7923515598792351,
+        "roc_auc": 0.9306845797158764
+      },
+      "test_metrics": {
+        "accuracy": 0.8171247357293869,
+        "precision": 0.6919431279620853,
+        "recall": 0.8716417910447761,
+        "f1": 0.7714663143989432,
+        "roc_auc": 0.9174218921757824
+      }
+    },
+    "hist_gradient_boosting": {
+      "best_score": 0.7309117559462406,
+      "best_params": {
+        "min_samples_leaf": 20,
+        "max_iter": 300,
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "l2_regularization": 1.0
+      },
+      "dev_metrics": {
+        "accuracy": 0.8797568710359408,
+        "precision": 0.853386454183267,
+        "recall": 0.7980625931445604,
+        "f1": 0.8247978436657682,
+        "roc_auc": 0.9571370245736863
+      },
+      "test_metrics": {
+        "accuracy": 0.8382663847780126,
+        "precision": 0.7916666666666666,
+        "recall": 0.7373134328358208,
+        "f1": 0.7635239567233385,
+        "roc_auc": 0.9221193541295161
+      }
+    },
+    "xgboost": {
+      "best_score": 0.7529178542086413,
+      "best_params": {
+        "subsample": 0.8,
+        "n_estimators": 200,
+        "min_child_weight": 1,
+        "max_depth": 5,
+        "learning_rate": 0.03,
+        "colsample_bytree": 0.85
+      },
+      "dev_metrics": {
+        "accuracy": 0.8596723044397463,
+        "precision": 0.7655533726260642,
+        "recall": 0.8710879284649776,
+        "f1": 0.8149180899268038,
+        "roc_auc": 0.9417424639108691
+      },
+      "test_metrics": {
+        "accuracy": 0.8382663847780126,
+        "precision": 0.7309644670050761,
+        "recall": 0.8597014925373134,
+        "f1": 0.7901234567901234,
+        "roc_auc": 0.9232088330849844
+      }
+    }
+  },
+  "best_test_metrics": {
+    "accuracy": 0.8382663847780126,
+    "precision": 0.7309644670050761,
+    "recall": 0.8597014925373134,
+    "f1": 0.7901234567901234,
+    "roc_auc": 0.9232088330849844
+  },
+  "best_model_top_shap_features": [
+    {
+      "feature": "cat__country_risk_Low",
+      "mean_abs_shap": 0.5894566178321838
+    },
+    {
+      "feature": "num__lead_time",
+      "mean_abs_shap": 0.5220310688018799
+    },
+    {
+      "feature": "num__total_of_special_requests",
+      "mean_abs_shap": 0.413108229637146
+    },
+    {
+      "feature": "cat__market_segment_Online TA",
+      "mean_abs_shap": 0.39286932349205017
+    },
+    {
+      "feature": "cat__country_risk_High",
+      "mean_abs_shap": 0.3117124140262604
+    },
+    {
+      "feature": "num__previous_cancellations",
+      "mean_abs_shap": 0.26048240065574646
+    },
+    {
+      "feature": "cat__customer_type_Transient",
+      "mean_abs_shap": 0.24638056755065918
+    },
+    {
+      "feature": "num__required_car_parking_spaces",
+      "mean_abs_shap": 0.23350214958190918
+    },
+    {
+      "feature": "cat__market_segment_Groups",
+      "mean_abs_shap": 0.13866090774536133
+    },
+    {
+      "feature": "num__adr",
+      "mean_abs_shap": 0.13640142977237701
+    }
+  ]
+}

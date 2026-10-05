@@ -1,0 +1,22 @@
+{
+  "best_model": "linear_svc",
+  "selection_metric": "f1",
+  "validation_metrics": {
+    "accuracy": 0.7939233817701453,
+    "precision": 0.6854304635761589,
+    "recall": 0.7723880597014925,
+    "f1": 0.7263157894736842,
+    "roc_auc": 0.8559884625950004
+  },
+  "test_metrics": {
+    "accuracy": 0.8054968287526427,
+    "precision": 0.6873449131513648,
+    "recall": 0.826865671641791,
+    "f1": 0.7506775067750677,
+    "roc_auc": 0.8876077875760315
+  },
+  "train_rows": 3027,
+  "validation_rows": 757,
+  "test_rows": 946,
+  "n_features": 63
+}

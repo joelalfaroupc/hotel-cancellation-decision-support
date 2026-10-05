@@ -1,0 +1,35 @@
+{
+  "input_file": "dataset_5000.csv",
+  "rows": 4730,
+  "columns": 22,
+  "dropped_columns": [
+    "is_canceled",
+    "arrival_date_week_number",
+    "required_car_parking_spaces",
+    "adr"
+  ],
+  "feature_names": [
+    "hotel",
+    "lead_time",
+    "arrival_date_year",
+    "arrival_date_month",
+    "arrival_date_day_of_month",
+    "gender_account",
+    "meal",
+    "market_segment",
+    "distribution_channel",
+    "is_repeated_guest",
+    "previous_cancellations",
+    "previous_bookings_not_canceled",
+    "reserved_room_type",
+    "customer_type",
+    "total_of_special_requests",
+    "has_agent",
+    "has_company",
+    "total_nights",
+    "total_guests",
+    "adr_per_guest",
+    "is_family_booking",
+    "country_risk"
+  ]
+}

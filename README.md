@@ -8,7 +8,7 @@ University team project at the Universitat Politècnica de Catalunya (UPC). The 
 
 A booking receives a cancellation probability, one of six traveler profiles, a risk level and a suggested action plan. The dashboard presents booking details, profile descriptions, contact channels and timing, along with a priority score for reviewing the queue. A new-booking simulator lets the user explore the model and the recommendations.
 
-The result is a working decision-support prototype and a recorded comparison of four machine-learning models. It does not establish that the recommended actions reduce cancellations or improve hotel revenue in production.
+The result is a working decision-support prototype, the academic analysis and training pipeline, and recorded model comparisons. It does not establish that the recommended actions reduce cancellations or improve hotel revenue in production.
 
 ```mermaid
 flowchart LR
@@ -97,7 +97,32 @@ On Windows, activate the environment with `.venv\Scripts\activate` instead. Then
 | `Interficie/tests/` | Existing engine regression tests |
 | `Interficie/email_agent/` | Optional communication integration |
 
-This public edition packages the operational interface, its model, reference data and supporting code. The source academic repository contains the wider analysis and delivery material. `Interficie/` is the main entry point for this edition.
+This public edition now includes the final academic delivery alongside the operational dashboard. `Interficie/` remains the dashboard entry point.
+
+| Path | Academic delivery |
+|---|---|
+| [`Source/`](Source/README.md) | EDA, preprocessing, clustering notebooks and two training scripts |
+| `Data/` | Booking extract, clustering input and archived train/validation/test splits |
+| `Models/baseline/`, `Models/final_model/` | Baseline evaluation and archived selected model |
+| `Models/interpretability/` | SHAP bar/beeswarm plots, global importance and local examples |
+| [`Documentation/Report.pdf`](Documentation/Report.pdf) | 99-page team report |
+| `Documentation/Architecture/`, `Documentation/Canvas.pptx` | Architecture and AI Council canvas |
+| `Documentation/Gantt_Final.pdf`, `Presentation/` | Project schedule and 17-slide presentation |
+| `KnowledgeSources/`, `Reasoning engines/` | Expert-rule archive and reasoning-component guide |
+| `Dockerfile`, `docker-compose.yml`, `Demo/` | Local dashboard/API container setup and demo instructions |
+
+The academic archive and operational snapshot are **different model versions**:
+
+| Snapshot | Features | Recorded test F1 | Recorded test ROC AUC |
+|---|---:|---:|---:|
+| `Interficie/model_artifacts/` — dashboard | 65 | 0.7906 | 0.9241 |
+| `Models/final_model/` — academic delivery | 63 | 0.7901 | 0.9232 |
+
+Each figure belongs to its own stored summary. The original delivery’s `Data/` splits and preprocessor contain 65 features, whereas its archived academic model expects 63, with a different year encoding. This source inconsistency is documented in `Source/README.md`; training on the supplied splits produces new results rather than reproducing the archived 63-feature evaluation. Restored SHAP artifacts describe the academic model; they are not integrated into individual dashboard explanations. Do not replace the dashboard model with the archived 63-feature model.
+
+For notebooks and training, follow [`Source/README.md`](Source/README.md). Container execution from the root uses `docker compose up --build`; then open `http://localhost:8000/index.html` or `http://localhost:8000/reserva_web.html`. Credentials are optional for serving the dashboard and are required only for the email integration. They are supplied locally; the repository contains blank or placeholder examples only. Docker execution was not verified during restoration because Docker is unavailable in the validation environment.
+
+The demo video was never included in the GitHub delivery because of its size. `README.txt` is preserved as the historical delivery guide and can mention original paths. [`Documentation/SOURCE_PROVENANCE.json`](Documentation/SOURCE_PROVENANCE.json) records the source commit, original paths, file hashes and layout adaptations.
 
 ## Validation and next steps
 
@@ -118,4 +143,4 @@ Further work should package preprocessing with the trained model, pin dependency
 
 ## Academic context and attribution
 
-This is a UPC university team project derived from [K4NG14/IDSS_Hotels](https://github.com/K4NG14/IDSS_Hotels). This is an operational snapshot of the team project, with source attribution retained. The original repository and its history remain separate from this public edition. No additional redistribution license is granted by this README.
+This is a UPC university team project derived from [K4NG14/IDSS_Hotels](https://github.com/K4NG14/IDSS_Hotels). This edition restores the team’s final academic delivery with source attribution retained. Team authors credited in the report: Joel Alfaro, Pablo Chacón, Pau Escobar, Blanca Mira and Daniel Pastor. No individual contribution split is asserted. The original repository and its history remain separate from this public edition. No additional redistribution license is granted by this README.

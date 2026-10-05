@@ -1,0 +1,347 @@
+{
+  "source_repository": "https://github.com/K4NG14/IDSS_Hotels",
+  "retrieval_repository": "joelalfaroupc/IDSS_Hotels",
+  "source_commit": "049a182c182f238588edad6d291d107224498a01",
+  "canonical_delivery": "Entrega/PW234-PAID-2026-T8-IDSSHotels/",
+  "restored_source_files": 41,
+  "adaptations": [
+    "Docker and reasoning links point to Interficie/",
+    "Trainers read archived 65-feature Data splits and write runs/; the historical 63-feature model inconsistency is documented",
+    "Notebook input paths use Data/ and outputs use runs/; stored outputs retained"
+  ],
+  "excluded": [
+    "Duplicate IDSS/Interficie tree: existing operational snapshot retained",
+    "Personal work-hours spreadsheet",
+    "Demo video absent from source Git tree"
+  ],
+  "files": [
+    {
+      "target": ".dockerignore",
+      "sha": "d58d4f615d7b7bc7987fbb74793a030d21914dc3",
+      "size": 139,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/.dockerignore",
+      "public_blob_sha": "d58d4f615d7b7bc7987fbb74793a030d21914dc3",
+      "adapted": false
+    },
+    {
+      "target": ".env.example",
+      "sha": "ab30c8c831a03cda4af7d9b13e92d1c164d71683",
+      "size": 135,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/.env.example",
+      "public_blob_sha": "ab30c8c831a03cda4af7d9b13e92d1c164d71683",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_clustering/clustering_dataset.csv",
+      "sha": "a2136241045499c2a73551aaa6e6c103d673a0db",
+      "size": 469045,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_clustering/clustering_dataset.csv",
+      "public_blob_sha": "a2136241045499c2a73551aaa6e6c103d673a0db",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_clustering/clustering_summary.json",
+      "sha": "0034d724bb52e5a06819456fbcce31f96ce42ce9",
+      "size": 733,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_clustering/clustering_summary.json",
+      "public_blob_sha": "0034d724bb52e5a06819456fbcce31f96ce42ce9",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/X_test.csv",
+      "sha": "53208778611145c00ba2809af415cc3fa7401284",
+      "size": 413456,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/X_test.csv",
+      "public_blob_sha": "53208778611145c00ba2809af415cc3fa7401284",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/X_train.csv",
+      "sha": "f5402ce5ca1f97e73c6f8e83a85d305df451999b",
+      "size": 1319095,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/X_train.csv",
+      "public_blob_sha": "f5402ce5ca1f97e73c6f8e83a85d305df451999b",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/X_val.csv",
+      "sha": "4dfe62867180637dd872e2564d4c7f11088fa52e",
+      "size": 331201,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/X_val.csv",
+      "public_blob_sha": "4dfe62867180637dd872e2564d4c7f11088fa52e",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/preprocessing_summary.json",
+      "sha": "3e4ae92fc6a74e0992528f9cde78e4dcdb0b5bd0",
+      "size": 877,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/preprocessing_summary.json",
+      "public_blob_sha": "3e4ae92fc6a74e0992528f9cde78e4dcdb0b5bd0",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/preprocessor.joblib",
+      "sha": "7e1f22b1c5f79a46ea1e548ebcd0d348b196a8a4",
+      "size": 8889,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/preprocessor.joblib",
+      "public_blob_sha": "7e1f22b1c5f79a46ea1e548ebcd0d348b196a8a4",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/y_test.csv",
+      "sha": "2c6ab2635ee81dc3c8817c3fd9897aa6afb30da0",
+      "size": 1904,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/y_test.csv",
+      "public_blob_sha": "2c6ab2635ee81dc3c8817c3fd9897aa6afb30da0",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/y_train.csv",
+      "sha": "fb2a13db85b63d3c6d0f4031f63613a7d8890ffd",
+      "size": 6066,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/y_train.csv",
+      "public_blob_sha": "fb2a13db85b63d3c6d0f4031f63613a7d8890ffd",
+      "adapted": false
+    },
+    {
+      "target": "Data/dades_preprocessades_ml/y_val.csv",
+      "sha": "0adc2628ae7a0b421e41040d42c4dec2b7290e8a",
+      "size": 1526,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dades_preprocessades_ml/y_val.csv",
+      "public_blob_sha": "0adc2628ae7a0b421e41040d42c4dec2b7290e8a",
+      "adapted": false
+    },
+    {
+      "target": "Data/dataset_5000.csv",
+      "sha": "fe3979a9ca24f9d6ea83bb4075f0004c4c50a33a",
+      "size": 741025,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/dataset_5000.csv",
+      "public_blob_sha": "fe3979a9ca24f9d6ea83bb4075f0004c4c50a33a",
+      "adapted": false
+    },
+    {
+      "target": "Data/hotel_clustering_output.csv",
+      "sha": "b2334d8b677a4a9efea79d9f3959c2811e0402e2",
+      "size": 477970,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Data/hotel_clustering_output.csv",
+      "public_blob_sha": "b2334d8b677a4a9efea79d9f3959c2811e0402e2",
+      "adapted": false
+    },
+    {
+      "target": "Demo/README.md",
+      "sha": "5c281b75cc32c30a89f3ced54661b0aef744f398",
+      "size": 490,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Demo/README.md",
+      "public_blob_sha": "5c281b75cc32c30a89f3ced54661b0aef744f398",
+      "adapted": false
+    },
+    {
+      "target": "Dockerfile",
+      "sha": "ebeb57df7a1fcb775e5c8d84b567af6e3d1c5c64",
+      "size": 647,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Dockerfile",
+      "public_blob_sha": "1b1621e2b09be82438c73d9c9c5337d45c6c8366",
+      "adapted": true
+    },
+    {
+      "target": "Documentation/Architecture/Arquitectura IDSS.png",
+      "sha": "172f72bc0248ff1e897a59c499a703a92fc4edac",
+      "size": 132491,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Documentation/Architecture/Arquitectura IDSS.png",
+      "public_blob_sha": "172f72bc0248ff1e897a59c499a703a92fc4edac",
+      "adapted": false
+    },
+    {
+      "target": "Documentation/Architecture/Arquitectura.docx",
+      "sha": "21694bdf780703e9e631d627d8f7f04c01017e68",
+      "size": 9159,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Documentation/Architecture/Arquitectura.docx",
+      "public_blob_sha": "21694bdf780703e9e631d627d8f7f04c01017e68",
+      "adapted": false
+    },
+    {
+      "target": "Documentation/Canvas.pptx",
+      "sha": "476451fed71234be700514fa32ffa061106edd1a",
+      "size": 242837,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Documentation/Canvas.pptx",
+      "public_blob_sha": "476451fed71234be700514fa32ffa061106edd1a",
+      "adapted": false
+    },
+    {
+      "target": "Documentation/Gantt_Final.pdf",
+      "sha": "e66c6139570373b34fc3c02add1801a47c75cd99",
+      "size": 69700,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Documentation/Gantt_Final.pdf",
+      "public_blob_sha": "e66c6139570373b34fc3c02add1801a47c75cd99",
+      "adapted": false
+    },
+    {
+      "target": "Documentation/Report.pdf",
+      "sha": "6edab8fbb1c2e26347617f275231c26fc76e5bd1",
+      "size": 6014957,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Documentation/Report.pdf",
+      "public_blob_sha": "6edab8fbb1c2e26347617f275231c26fc76e5bd1",
+      "adapted": false
+    },
+    {
+      "target": "KnowledgeSources/reglas_negocio_idss_experto.yaml",
+      "sha": "ec257ab2a44d008bdf848260b2eef2899a6669f9",
+      "size": 20823,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/KnowledgeSources/reglas_negocio_idss_experto.yaml",
+      "public_blob_sha": "ec257ab2a44d008bdf848260b2eef2899a6669f9",
+      "adapted": false
+    },
+    {
+      "target": "Models/baseline/best_model_summary.json",
+      "sha": "6a4ab99ab89ef45fc9df2192d440134015027dde",
+      "size": 545,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/baseline/best_model_summary.json",
+      "public_blob_sha": "6a4ab99ab89ef45fc9df2192d440134015027dde",
+      "adapted": false
+    },
+    {
+      "target": "Models/baseline/leaderboard.csv",
+      "sha": "b8908e7b7ba4473da6333b22da6dafa417f20e70",
+      "size": 1053,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/baseline/leaderboard.csv",
+      "public_blob_sha": "b8908e7b7ba4473da6333b22da6dafa417f20e70",
+      "adapted": false
+    },
+    {
+      "target": "Models/final_model/best_model.joblib",
+      "sha": "e8a38f57d59cd6a7a272bfb9e0c92a90a2115b9c",
+      "size": 390363,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/final_model/best_model.joblib",
+      "public_blob_sha": "e8a38f57d59cd6a7a272bfb9e0c92a90a2115b9c",
+      "adapted": false
+    },
+    {
+      "target": "Models/final_model/best_model_summary.json",
+      "sha": "b561cd095e2d4483d1f922289f10c78c84a31550",
+      "size": 4258,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/final_model/best_model_summary.json",
+      "public_blob_sha": "b561cd095e2d4483d1f922289f10c78c84a31550",
+      "adapted": false
+    },
+    {
+      "target": "Models/final_model/leaderboard.csv",
+      "sha": "4eafc7723a09553dc4fbf3d73e5de4c2a98be59c",
+      "size": 767,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/final_model/leaderboard.csv",
+      "public_blob_sha": "4eafc7723a09553dc4fbf3d73e5de4c2a98be59c",
+      "adapted": false
+    },
+    {
+      "target": "Models/interpretability/best_model_shap_bar.png",
+      "sha": "e1081ffb0f50a78d0fb8d221508dd89c6c2fa488",
+      "size": 113675,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/interpretability/best_model_shap_bar.png",
+      "public_blob_sha": "e1081ffb0f50a78d0fb8d221508dd89c6c2fa488",
+      "adapted": false
+    },
+    {
+      "target": "Models/interpretability/best_model_shap_beeswarm.png",
+      "sha": "3b32b61fc15a2c652d55ce6c414fe63a49fadab9",
+      "size": 147092,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/interpretability/best_model_shap_beeswarm.png",
+      "public_blob_sha": "3b32b61fc15a2c652d55ce6c414fe63a49fadab9",
+      "adapted": false
+    },
+    {
+      "target": "Models/interpretability/best_model_shap_global_importance.csv",
+      "sha": "1d1a7935dbe14f3c16a5a03520ad0c9ba0f38c44",
+      "size": 2394,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/interpretability/best_model_shap_global_importance.csv",
+      "public_blob_sha": "1d1a7935dbe14f3c16a5a03520ad0c9ba0f38c44",
+      "adapted": false
+    },
+    {
+      "target": "Models/interpretability/best_model_shap_local_examples.csv",
+      "sha": "e85a115c9324acb3a0c5457704b946af7fee8deb",
+      "size": 3691,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/interpretability/best_model_shap_local_examples.csv",
+      "public_blob_sha": "e85a115c9324acb3a0c5457704b946af7fee8deb",
+      "adapted": false
+    },
+    {
+      "target": "Models/model_comparison_test_metrics.csv",
+      "sha": "5ea75d5ffa1495c2a5fd53f90b2a181de087370c",
+      "size": 983,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Models/model_comparison_test_metrics.csv",
+      "public_blob_sha": "5ea75d5ffa1495c2a5fd53f90b2a181de087370c",
+      "adapted": false
+    },
+    {
+      "target": "Presentation/Presentation - Grup 8.pdf",
+      "sha": "624a60d80c046ac41d002b4a134fcf9179de4813",
+      "size": 3268380,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Presentation/Presentation - Grup 8.pdf",
+      "public_blob_sha": "624a60d80c046ac41d002b4a134fcf9179de4813",
+      "adapted": false
+    },
+    {
+      "target": "README.txt",
+      "sha": "05e515e37b7e7a6ccbb729ef8d0db5dad6785deb",
+      "size": 6849,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/README.txt",
+      "public_blob_sha": "05e515e37b7e7a6ccbb729ef8d0db5dad6785deb",
+      "adapted": false
+    },
+    {
+      "target": "Reasoning engines/README.md",
+      "sha": "3902b94853b82d7b41edd8e85286335d07a926c6",
+      "size": 454,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Reasoning engines/README.md",
+      "public_blob_sha": "c21187d5bbc3d2323dc06b99b9c5970e91706a30",
+      "adapted": true
+    },
+    {
+      "target": "Source/EDA.ipynb",
+      "sha": "e4cddfa7a272e9b99c0156e113afef7c1c942f3c",
+      "size": 1931983,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Source/EDA.ipynb",
+      "public_blob_sha": "8e50985a63b1d43827b4b4ddd215bea1667ba857",
+      "adapted": true
+    },
+    {
+      "target": "Source/clustering_kmeans_hdbscan.ipynb",
+      "sha": "f6e23591633b8fbd90621e13560bd355fafb61d5",
+      "size": 2411176,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Source/clustering_kmeans_hdbscan.ipynb",
+      "public_blob_sha": "0016bb861c7fad10149f3a5a674692b8b97c45fd",
+      "adapted": true
+    },
+    {
+      "target": "Source/preprocessament.ipynb",
+      "sha": "a18b2eb233b596f1b5272d83852b36b6efc7981c",
+      "size": 143064,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Source/preprocessament.ipynb",
+      "public_blob_sha": "6b0cc0281acfcb9775b9ec28f6bc8d3c40974afd",
+      "adapted": true
+    },
+    {
+      "target": "Source/train_model.py",
+      "sha": "286d3d4b7eb07982a094ebf6cc1b512226f04c85",
+      "size": 6998,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Source/train_model.py",
+      "public_blob_sha": "4079edee08f6f9656f099ea75ef641c93a23ebe3",
+      "adapted": true
+    },
+    {
+      "target": "Source/train_model_cv.py",
+      "sha": "68f6f890f29cca70833bbcc2bff3d5bc2d259a44",
+      "size": 11924,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/Source/train_model_cv.py",
+      "public_blob_sha": "c67f0ecaf098c815a3188269cf58be108b608ac8",
+      "adapted": true
+    },
+    {
+      "target": "docker-compose.yml",
+      "sha": "da1b716cc9524da4524acac9f747c38b1c49577c",
+      "size": 398,
+      "path": "Entrega/PW234-PAID-2026-T8-IDSSHotels/docker-compose.yml",
+      "public_blob_sha": "da1b716cc9524da4524acac9f747c38b1c49577c",
+      "adapted": false
+    }
+  ]
+}

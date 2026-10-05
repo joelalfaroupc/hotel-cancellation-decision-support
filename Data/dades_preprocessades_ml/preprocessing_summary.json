@@ -1,0 +1,47 @@
+{
+  "input_file": "dataset_5000.csv",
+  "target_column": "is_canceled",
+  "train_shape": [
+    3027,
+    65
+  ],
+  "validation_shape": [
+    757,
+    65
+  ],
+  "test_shape": [
+    946,
+    65
+  ],
+  "binary_features": [
+    "is_repeated_guest",
+    "has_agent",
+    "has_company",
+    "is_family_booking"
+  ],
+  "categorical_features": [
+    "hotel",
+    "arrival_date_year",
+    "arrival_date_month",
+    "gender_account",
+    "meal",
+    "country_risk",
+    "market_segment",
+    "distribution_channel",
+    "reserved_room_type",
+    "customer_type"
+  ],
+  "numerical_features": [
+    "lead_time",
+    "arrival_date_week_number",
+    "arrival_date_day_of_month",
+    "previous_cancellations",
+    "previous_bookings_not_canceled",
+    "adr",
+    "required_car_parking_spaces",
+    "total_of_special_requests",
+    "total_nights",
+    "total_guests",
+    "adr_per_guest"
+  ]
+}
